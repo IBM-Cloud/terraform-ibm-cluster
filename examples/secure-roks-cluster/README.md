@@ -67,7 +67,7 @@ Review the following variables that you can customize in your Terraform template
 |ibmcloud_api_key|[IBM Cloud IAM API key](https://cloud.ibm.com/docs/account?topic=account-userapikey#create_user_key).|string|N/A|Yes|
 |region|[IBM Cloud region for the VPC cluster](https://cloud.ibm.com/docs/openshift?topic=openshift-regions-and-zones#zones-vpc).|string|N/A|Yes|
 |resource_group|Name of the [IBM Cloud resource group](https://cloud.ibm.com/docs/account?topic=account-rgs) to create the resources in. If set to `null`, the default resource group is used.|string|`null`|No|
-|cos_instance_name|Name of the IBM Cloud Object Storage instance. If set to `null`, an instance is created with the following naming convention: `<var.resource_prefix>-cos`|string|`null`|No|
+|cos_instance|CRN of the IBM Cloud Object Storage instance. If set to `null`, an instance is created with the following naming convention: `<var.resource_prefix>-cos`|string|`null`|No|
 |resource_prefix|Prefix to use for created resource names.|string|N/A|Yes|
 |flavor|The flavor for the VPC worker nodes to create in the cluster. To list available flavors, run `ibmcloud ks flavors --zone <vpc_region>-1`.|string|`bx2.4x16`|No|
 |ocp_version|Specify the Red Hat OpenShift on IBM Cloud version. To list versions, run `ibmcloud ks versions`.|string|`4.6_openshift`|No|
@@ -87,7 +87,7 @@ Review the following variables that you can customize in your Terraform template
 |activity_tracker_instance|GUID of the IBM Cloud Activity Tracker instance. If set to `null`, a instance is created with the following naming convention: `<var.resource_prefix>-at`|string|`null`|No|
 |custom_sg_rules|Custom VPC security group rules. For more information, review the following [`custom_sg_rules` object](#custom_sg_rules-object). |list(object)|[]|No|
 |ip_ranges|An ordered list of IP address ranges on which the three VPC subnets are created, for the region. If the subnets are created in the `us-south` region, the IP address ranges must match the IP address ranges of the region's zones, [`us-south-1`, `us-south-2`, `us-south-3`].Conflicts with `number_of_addresses` argument For more information, see [Designing an address plan in the VPC documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-vpc-addressing-plan-design).|list(string)|null|No|
-|number_of_addresses|Number of IPV4 Addresses. Conflicts with `ip_ranges` argument|number|256|No|
+|number_of_addresses|Number of IPV4 Addresses. Conflicts with `ip_ranges` argument|number|`null`|No|
 
 ### custom_sg_rules object
 
