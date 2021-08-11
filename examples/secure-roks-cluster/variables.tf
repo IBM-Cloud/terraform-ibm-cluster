@@ -46,7 +46,7 @@ variable "flavor" {
 variable "ocp_version" {
   type        = string
   description = "Specify the Openshift version"
-  default     = "4.6.23_1540_openshift"
+  default     = "4.6_openshift"
 }
 variable "ocp_entitlement" {
   type        = string
@@ -66,7 +66,7 @@ variable "worker_nodes_per_zone" {
 variable "create_timeout" {
   type        = string
   description = "Custom Creation timeout for Cluster"
-  default     = null
+  default     = "3h"
 }
 
 ######################################################
@@ -82,12 +82,12 @@ variable "roks_kms_policy" {
 #IBM-Cloud Key Protect Variables
 ######################################################
 variable "kms_instance" {
-  description = "Name of Key Protect Instance. If null it creates an instance with `<var.resource_prefix>-kp`"
+  description = "GUID of Key Protect Instance. If null it creates an instance with name `<var.resource_prefix>-kp`"
   type        = string
   default     = null
 }
 variable "kms_key" {
-  description = "Name of Key Protect Key. If null it creates an instance with `<var.resource_prefix>-kp-key`"
+  description = "Key ID of Key Protect Key. If null it creates an instance with name `<var.resource_prefix>-kp-key`"
   type        = string
   default     = null
 }
@@ -100,20 +100,20 @@ variable "standard_key_type" {
 ######################################################
 #IBM-Cloud Logging and Monitoring Variables
 ######################################################
-variable "sysdig_name" {
+variable "sysdig_instance" {
   default     = null
   type        = string
-  description = "Name of Sysdig Instance. If null it creates an instance with `<var.resource_prefix>-sysdig`"
+  description = "GUID of Sysdig Instance. If null it creates an instance with name `<var.resource_prefix>-sysdig`"
 }
 variable "sysdig_access_key" {
   description = "The sysdig monitoring ingestion key that you want to use for your configuration"
   type        = string
   default     = null
 }
-variable "logdna_name" {
+variable "logdna_instance" {
   default     = null
   type        = string
-  description = "Name of logdna_name Instance. If null it creates an instance with `<var.resource_prefix>-logdna`"
+  description = "GUID of Logging Instance. If null it creates an instance with `<var.resource_prefix>-logdna`"
 }
 variable "logdna_ingestion_key" {
   description = "The LogDNA ingestion key that you want to use for your configuration"
@@ -125,8 +125,8 @@ variable "private_endpoint" {
   type        = bool
   default     = true
 }
-variable "activity_tracker_instance_name" {
-  description = "Name of Activity Tracker Instance. If null it doesnt create activity tracker instance."
+variable "activity_tracker_instance" {
+  description = "GUID of Activity Tracker Instance. If null it doesnt create activity tracker instance."
   default     = null
   type        = string
 }
@@ -138,12 +138,13 @@ variable "custom_sg_rules" {
   type        = any // Refer README for type
   default     = []
 }
-
 variable "ip_ranges" {
-  description = "Ordered List of ip_ranges on which subnets has to be created."
+  description = "Ordered List of ip_ranges on which subnets has to be created. Conflicts with number_of_addresses argument"
   type        = list(string)
-  validation {
-    condition     = var.ip_ranges != [] && length(var.ip_ranges) == 3
-    error_message = "Length of ip_ranges should be 3. This modules supports creation of 3 multizone subnets."
-  }
+  default     = null
+}
+variable "number_of_addresses" {
+  description = "Number of IPV4 Addresses. Conflicts with ip_ranges argument"
+  type        = number
+  default     = 256
 }
