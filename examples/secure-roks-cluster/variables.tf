@@ -63,6 +63,11 @@ variable "worker_nodes_per_zone" {
   description = "The number of worker nodes per zone."
   default     = 3
 }
+variable "wait_till" {
+  description = "specify the stage when Terraform to mark the cluster creation as completed."
+  type        = string
+  default     = "ingressReady"
+}
 variable "create_timeout" {
   type        = string
   description = "Custom Creation timeout for Cluster"
@@ -100,22 +105,22 @@ variable "standard_key_type" {
 ######################################################
 #IBM-Cloud Logging and Monitoring Variables
 ######################################################
-variable "sysdig_instance" {
+variable "monitoring_instance" {
   default     = null
   type        = string
   description = "GUID of Sysdig Instance. If null it creates an instance with name `<var.resource_prefix>-sysdig`"
 }
-variable "sysdig_access_key" {
+variable "monitoring_access_key" {
   description = "The sysdig monitoring ingestion key that you want to use for your configuration"
   type        = string
   default     = null
 }
-variable "logdna_instance" {
+variable "logging_instance" {
   default     = null
   type        = string
   description = "GUID of Logging Instance. If null it creates an instance with `<var.resource_prefix>-logdna`"
 }
-variable "logdna_ingestion_key" {
+variable "logging_ingestion_key" {
   description = "The LogDNA ingestion key that you want to use for your configuration"
   type        = string
   default     = null
