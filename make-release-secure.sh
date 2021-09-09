@@ -28,24 +28,26 @@ if [[ $RELEASE_VERSION == refs/tags/sc-* ]]; then
 elif [[ $RELEASE_VERSION == sc-* ]]; then
   RELEASE_VERSION=${RELEASE_VERSION:3}
 fi
-OUTPUT_DIR=releases/$RELEASE_DIR/secure-roks-cluster
+OUTPUT_DIR=releases/$RELEASE_DIR
 TAR_NAME="secure-cluster-$RELEASE_VERSION.tgz"
+TAR_NAME_OPT_OUT="iks-integration-$RELEASE_VERSION.tgz"
 
 echo "RELEASE VERSION: $RELEASE_VERSION"
 echo "output directory: $OUTPUT_DIR"
 echo "tar name: $TAR_NAME"
+echo "opt out tar: $TAR_NAME_OPT_OUT"
 
 mkdir -p $OUTPUT_DIR
-cp -r examples/secure-roks-cluster/. $OUTPUT_DIR
-# For secure cluster right now, modules diretory isn't even needed. If it is, double check the sed'ing is working
+cp -r examples/secure-roks-cluster $OUTPUT_DIR
+cp -r examples/iks-integration $OUTPUT_DIR
+# For secure cluster & opt out right now, modules diretory isn't even needed. If it is, double check the sed'ing is working
 # note, gnu sed. if running on mac, set it up first. (or add a '' after -i)
 # cp -R modules $OUTPUT_DIR
 # sed -i 's#../../modules#./modules#g' $OUTPUT_DIR/*.tf
 
 # tar the files
-cd $OUTPUT_DIR/..
+cd $OUTPUT_DIR/
 
-# chown is only needed locally so username isn't in tar
-# chown -R nobody secure-roks-cluster
 echo `pwd`
 tar -czf ../$TAR_NAME secure-roks-cluster
+tar -czf ../$TAR_NAME_OPT_OUT iks-integration
