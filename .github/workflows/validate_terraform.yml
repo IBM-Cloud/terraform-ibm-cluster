@@ -26,6 +26,9 @@ jobs:
         name: Install pre-commit
         run: pip install pre-commit
       -
+        name: Upgrade hooks
+        run: pre-commit autoupdate
+      -
         name: Run pre-commit command
         run: pre-commit run -a
       -
@@ -37,12 +40,3 @@ jobs:
       -
         name: terraform fmt check           # perform format checks
         run: terraform fmt -list=true -write=false -check -recursive
-
-      - uses: 8398a7/action-slack@v2
-        with:
-          status: ${{ job.status }}
-          author_name: Integration Test # default: 8398a7@action-slack
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # optional
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
-        if: always() # Pick up events even if the job fails or is canceled.

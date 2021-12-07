@@ -43,6 +43,7 @@ module "classic_kubernetes_multi_zone_cluster" {
   create_timeout                  = var.create_timeout
   update_timeout                  = var.update_timeout
   delete_timeout                  = var.delete_timeout
+  taints                          = var.taints
 }
 ```
 ## NOTE:
@@ -81,8 +82,18 @@ If we want to make use of a particular version of module, then set the "version"
 | create_timeout                    | Timeout duration for creation                                  | string | n/a     | no       |
 | update_timeout                    | Timeout duration for updation                                  | string | n/a     | no       |
 | delete_timeout                    | Timeout duration for deletion                                  | string | n/a     | no       |
+| taints                            |A nested block that sets or removes Kubernetes taints for all worker nodes in a worker pool|list(string)| n/a  | no  |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
+## taints Inputs
+
+| Name                | Description                                           | Type   | Default | Required |
+|---------------------|-------------------------------------------------------|--------|---------|----------|
+|  key                | Key for taint.                                        | string | n/a     | yes      |
+|  value              | Value for taint.                                      | string | n/a     | yes      |
+|  private_endpoint   | Effect for taint. Accepted values are NoSchedule, PreferNoSchedule, and NoExecute| string   | n/a     | yes       |
+
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

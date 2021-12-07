@@ -15,6 +15,7 @@ And it also has the following modules to configure a already provisioned cluster
 * classic-cluster-worker-pool
 * vpc-cluster-worker-pool
 * add-ons
+* openshift-route
 
 ## Compatibility
 
@@ -96,6 +97,19 @@ module "vpc_openshift_cluster" {
 }
 ```
 
+Creation of openshift route:
+
+```hcl
+module "openshift_cluster_route" {
+  source = "github.com/terraform-ibm-modules/terraform-ibm-cluster//modules/openshift-route"
+
+  ibmcloud_api_key    = var.ibmcloud_api_key
+  cluster_service_url = var.cluster_service_url
+  namespace           = var.namespace
+  route_data          = var.route_data
+}
+```
+
 ## Requirements
 
 ### Terraform plugins
@@ -120,15 +134,45 @@ Be sure you have the compiled plugins on $HOME/.terraform.d/plugins/
 
 Run the following command to execute the pre-commit hooks defined in .pre-commit-config.yaml file
 
+```
 pre-commit run -a
+```
 
 We can install pre-coomit tool using
 
+```
 pip install pre-commit
 
       or
 
 pip3 install pre-commit
+```
+
+### Detect Secret Hook
+
+Used to detect secrets within a code base.
+
+To create a secret baseline file run following command
+
+```
+detect-secrets scan --update .secrets.baseline
+```
+
+While running the pre-commit hook, if you encounter an error like
+
+```
+WARNING: You are running an outdated version of detect-secrets.
+Your version: 0.13.1+ibm.27.dss
+Latest version: 0.13.1+ibm.46.dss
+See upgrade guide at https://ibm.biz/detect-secrets-how-to-upgrade
+```
+
+run below command
+
+```
+pre-commit autoupdate
+```
+which upgrades all the pre-commit hooks present in .pre-commit.yaml file.
 
 ## How to input varaible values through a file
 

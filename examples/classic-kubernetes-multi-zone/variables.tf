@@ -61,7 +61,6 @@ variable "hardware" {
 variable "worker_nodes_per_zone" {
   description = "Number of workser nodes per zone"
   type        = number
-  default     = null
 }
 
 variable "master_service_public_endpoint" {
@@ -155,5 +154,18 @@ variable "subnet_id" {
   default     = null
 }
 
-
+variable "taints" {
+  type = list(object({
+    key    = string
+    value  = string
+    effect = string
+  }))
+  description = "Set taints to worker nodes."
+  default = [{
+    key    = "dedicated"
+    value  = "edge"
+    effect = "NoSchedule"
+    },
+  ]
+}
 
