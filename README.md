@@ -1,3 +1,7 @@
+********************************************************************************************
+DEPRECIATED. Use version https://github.com/terraform-ibm-modules/terraform-ibm-vpc-cluster
+********************************************************************************************
+
 # IBM Clusters Terraform Module
 
 This is a collection of modules that make it easier to provision a cluster on IBM Cloud Platform:
